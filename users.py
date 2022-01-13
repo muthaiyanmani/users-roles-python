@@ -1,7 +1,7 @@
 
 user_data = {}
-role_arr =[]
-#role_arr = ['CEO', ['COO',['Marketing','HR Lead']],['CTO',['Tech Lead']]]
+# role_arr =[]
+role_arr = ['CEO', ['COO', ['Marketing', 'HR Lead']], ['CTO', ['Tech Lead']]]
 
 
 def create_root():
@@ -25,58 +25,107 @@ def display():
         result = []
         result.append(role_arr[0])
         if len(role_arr) > 1:
-            result.append(role_arr[1][0])
+            for i in range(len(role_arr[1])):
+                if(type(role_arr[1][i]) != type([])):
+                    result.append(role_arr[1][i])
+
         if len(role_arr) > 2:
-            result.append(role_arr[2][0])
-        if len(role_arr)>1 and len(role_arr[1])>1:
-            for i in range(len(role_arr[1][1])):
-                result.append(role_arr[1][1][i])
-        if len(role_arr)>2 and len(role_arr[2])>1:
-            for i in range(len(role_arr[2][1])):
-                result.append(role_arr[2][1][i])
+            for i in range(len(role_arr[2])):
+                if(type(role_arr[2][i]) != type([])):
+                    result.append(role_arr[2][i])
+
+        if len(role_arr) > 1 and len(role_arr[1]) > 1:
+            for i in range(len(role_arr[1])):
+                if(type(role_arr[1][i]) == type([])):
+                    for j in range(len(role_arr[1][i])):
+                        result.append(role_arr[1][i][j])
+
+        if len(role_arr) > 2 and len(role_arr[2]) > 1:
+            for i in range(len(role_arr[2])):
+                if(type(role_arr[2][i]) == type([])):
+                    for j in range(len(role_arr[2][i])):
+                        result.append(role_arr[2][i][j])
+
         print()
         for item in result:
-            print(item,end=" ")
+            print(item, end=" ")
         print()
     else:
         print("No roles found")
 
-def delete():
-    del_name = input("Enter role name to delete: ")
-    role_transfer = input("Enter the role to be transferred:")
-    # if(del_role in role_arr):
-    if(del_name in role_arr):
-        print("Role deleted")
+if len(role_arr) > 1:
+            for i in range(len(role_arr[1])):
+                if(type(role_arr[1][i]) != type([])):
+                    result.append(role_arr[1][i])
+def delete_user():
+    if len(role_arr):
+        del_name = input("Enter role name to delete: ")
+        role_transfer = input("Enter the role to be transferred:")
+        if(del_name in role_arr):
+            role_arr.remove(del_name)
+            # print("Deleted",del_name,role_transfer,role_arr)
+            transfer_user(role_transfer, role_arr)
+        elif(len(role_arr) > 1 and len(role_arr[1]) > 0 and del_name in role_arr[1]):
+            role_arr[1].remove(del_name)
+            # print("Deleted",del_name,role_transfer,role_arr[1])
+            transfer_user(role_transfer, role_arr[1])
+        elif(len(role_arr) > 1 and len(role_arr[1]) > 0 and del_name in role_arr[1]):
+            role_arr[1].remove(del_name)
+            # print("Deleted",del_name,role_transfer,role_arr[1])
+            transfer_user(role_transfer, role_arr[1][1])
+        elif(len(role_arr) > 2 and len(role_arr[2]) > 0 and del_name in role_arr[2]):
+            role_arr[2].remove(del_name)
+            # print("Deleted",del_name,role_transfer,role_arr[0])
+            transfer_user(role_transfer, role_arr[2])
+        elif(len(role_arr) > 2 and len(role_arr[2]) > 1 and del_name in role_arr[2]):
+            role_arr[2].remove(del_name)
+            # print("Deleted",del_name,role_transfer,role_arr[0])
+            transfer_user(role_transfer, role_arr[2][1])
+        else:
+            print("Role not found")
+    else:
+        print("No roles found")
+
+
+def transfer_user(name, role):
+    if(name in role_arr):
         role_arr.remove(del_name)
-        # role_arr.append([role_name])
-    elif(del_name in role_arr[1]):
-        role_arr[1].remove(del_name)
-        print("Role deleted 1")
-        # role_arr[1].append([role_name])
-        # role_arr[1].append([role_name])
-    elif(del_name in role_arr[2]):
-        role_arr[2].remove(del_name)
-        role_arr[2] = role_arr[2][0]
-        print("Role deleted 2")
-        # role_arr[2].append([role_name])
+    elif(len(role_arr) > 1 and len(role_arr[1]) > 0 and name in role_arr[1]):
+            index = role_arr[1].index(name)
+            role_arr[1][index] = [name]
+            role_arr[1][index].append([role])
+    elif(len(role_arr) > 1 and len(role_arr[1]) > 0 and name in role_arr[1]):
+            index = role_arr[1][1].index(name)
+            role_arr[1][1][index] = [name]
+            role_arr[1][1][index].append([role])
+    elif(len(role_arr) > 2 and len(role_arr[2]) > 0 and name in role_arr[2]):
+            index = role_arr[2].index(name)
+            role_arr[2][index] = [name]
+            role_arr[2][index].append([role])
+    elif(len(role_arr) > 2 and len(role_arr[2]) > 1 and name in role_arr[2]):
+            index = role_arr[2][1].index(name)
+            role_arr[2][2][index] = [name]
+            role_arr[2][2][index].append([role])
+    else:
+        print("Transfer role not found")
 
 
-def add_users():
+def add_user():
     if len(role_arr):
         user_name = input("Enter User Name: ")
         role_name = input("Enter Role: ")
         if(role_name in role_arr):
             user_data[role_name] = user_name
-        elif(len(role_arr)>1 and len(role_arr[1][0])>1):
+        elif(len(role_arr) > 1 and len(role_arr[1][0]) > 1):
             if(role_name in role_arr[1][0]):
                 user_data[role_name] = user_name
-        elif(len(role_arr)>1 and len(role_arr[1][1])>1):
+        elif(len(role_arr) > 1 and len(role_arr[1][1]) > 1):
             if(role_name in role_arr[1][1]):
                 user_data[role_name] = user_name
-        elif(len(role_arr)>2 and len(role_arr[2][0])>1):
+        elif(len(role_arr) > 2 and len(role_arr[2][0]) > 1):
             if(role_name in role_arr[2][0]):
                 user_data[role_name] = user_name
-        elif(len(role_arr)>2 and len(role_arr[2][1])>1):
+        elif(len(role_arr) > 2 and len(role_arr[2][1]) > 1):
             if(role_name in role_arr[2][1]):
                 user_data[role_name] = user_name
         else:
@@ -90,18 +139,30 @@ def display_users():
         result = []
         result.append(role_arr[0])
         if len(role_arr) > 1:
-            result.append(role_arr[1][0])
+            for i in range(len(role_arr[1])):
+                if(type(role_arr[1][i]) != type([])):
+                    result.append(role_arr[1][i])
+
         if len(role_arr) > 2:
-            result.append(role_arr[2][0])
-        if len(role_arr)>1 and len(role_arr[1])>1:
-            for i in range(len(role_arr[1][1])):
-                result.append(role_arr[1][1][i])
-        if len(role_arr)>2 and len(role_arr[2])>1:
-            for i in range(len(role_arr[2][1])):
-                result.append(role_arr[2][1][i])
+            for i in range(len(role_arr[2])):
+                if(type(role_arr[2][i]) != type([])):
+                    result.append(role_arr[2][i])
+
+        if len(role_arr) > 1 and len(role_arr[1]) > 1:
+            for i in range(len(role_arr[1])):
+                if(type(role_arr[1][i]) == type([])):
+                    for j in range(len(role_arr[1][i])):
+                        result.append(role_arr[1][i][j])
+
+        if len(role_arr) > 2 and len(role_arr[2]) > 1:
+            for i in range(len(role_arr[2])):
+                if(type(role_arr[2][i]) == type([])):
+                    for j in range(len(role_arr[2][i])):
+                        result.append(role_arr[2][i][j])
+
         print()
         for item in result:
-            print(item," - ",user_data[item] if user_data.get(item) else "")
+            print(item, " - ", user_data[item] if user_data.get(item) else "")
         print()
     else:
         print("No roles found")
@@ -118,11 +179,10 @@ while(True):
     elif(choice == 2):
         display()
     elif(choice == 3):
-        delete()
+        delete_user()
     elif(choice == 4):
-        add_users()
+        add_user()
     elif(choice == 5):
         display_users()
     else:
         print("Invalid choice.")
-
